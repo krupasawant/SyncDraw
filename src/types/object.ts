@@ -27,3 +27,11 @@ export interface BaseObject {
   opacity?: number;
   crop?: { x: number; y: number; width: number; height: number };
 }
+
+
+export interface Design {
+  _id: string;
+  title: string;
+  userId: string;
+  data: BaseObject[];
+}

@@ -7,8 +7,5 @@ export const store = configureStore({
   },
 });
 
-// Type of the entire state tree
 export type RootState = ReturnType<typeof store.getState>;
-
-// Type of dispatch function
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch; 

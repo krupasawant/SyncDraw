@@ -63,24 +63,81 @@ export default function Toolbar() {
     link.click();
   };
 
+  const toolbarStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 10,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 1000,
+    background: '#fff',
+    border: '1px solid #ddd',
+    borderRadius: 8,
+    padding: '6px 10px',
+    display: 'flex',
+    gap: '6px',
+    flexWrap: 'wrap',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    fontFamily: 'sans-serif',
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    padding: '4px 6px',
+    fontSize: '13px',
+    background: '#f9f9f9',
+    border: '1px solid #ccc',
+    borderRadius: 4,
+    cursor: 'pointer',
+  };
+
+  const disabledStyle: React.CSSProperties = {
+    ...buttonStyle,
+    opacity: 0.5,
+    cursor: 'not-allowed',
+  };
+
   return (
-    <div style={{ position: 'absolute', top: 10, left: 150, zIndex: 1000, background: '#fff', padding: 10, border: '1px solid #ccc', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-      <button onClick={() => addShape('rectangle')}>Rectangle</button>
-      <button onClick={() => addShape('circle')}>Circle</button>
-      <button onClick={() => addShape('triangle')}>Triangle</button>
-      <button onClick={() => addShape('arrow')}>Arrow</button>
-      <button onClick={() => addShape('line')}>Line</button>
-      <button onClick={addText}>Text</button>
-      <label style={{ cursor: 'pointer' }}>
-        <span style={{ padding: '2px 4px', background: '#eee', border: '1px solid #ccc' }}>Upload Image</span>
-        <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+    <div style={toolbarStyle}>
+      <button style={buttonStyle} onClick={() => addShape('rectangle')}>▭</button>
+      <button style={buttonStyle} onClick={() => addShape('circle')}>⬤</button>
+      <button style={buttonStyle} onClick={() => addShape('triangle')}>△</button>
+      <button style={buttonStyle} onClick={() => addShape('arrow')}>➝</button>
+      <button style={buttonStyle} onClick={() => addShape('line')}>━</button>
+      <button style={buttonStyle} onClick={addText}>✎</button>
+
+      <label style={{ ...buttonStyle, display: 'inline-block' }}>
+        ⬆
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{ display: 'none' }}
+        />
       </label>
-      <button onClick={() => dispatch(undo())}>Undo</button>
-      <button onClick={() => dispatch(redo())}>Redo</button>
-      <button onClick={() => selectedId && dispatch(removeObject(selectedId))} disabled={!selectedId}>Delete</button>
-      <button onClick={() => selectedId && dispatch(updateObjectsOrder({ id: selectedId, direction: 'forward' }))} disabled={!selectedId}>Bring Forward</button>
-      <button onClick={() => selectedId && dispatch(updateObjectsOrder({ id: selectedId, direction: 'backward' }))} disabled={!selectedId}>Send Backward</button>
-      <button onClick={handleExport}>Export PNG</button>
+
+      <button style={buttonStyle} onClick={() => dispatch(undo())}>Undo</button>
+      <button style={buttonStyle} onClick={() => dispatch(redo())}>Redo</button>
+      <button
+        style={selectedId ? buttonStyle : disabledStyle}
+        onClick={() => selectedId && dispatch(removeObject(selectedId))}
+        disabled={!selectedId}
+      >
+        Delete
+      </button>
+      <button
+        style={selectedId ? buttonStyle : disabledStyle}
+        onClick={() => selectedId && dispatch(updateObjectsOrder({ id: selectedId, direction: 'forward' }))}
+        disabled={!selectedId}
+      >
+        Bring ↑
+      </button>
+      <button
+        style={selectedId ? buttonStyle : disabledStyle}
+        onClick={() => selectedId && dispatch(updateObjectsOrder({ id: selectedId, direction: 'backward' }))}
+        disabled={!selectedId}
+      >
+        Send ↓
+      </button>
+      <button style={buttonStyle} onClick={handleExport}>Export</button>
     </div>
   );
 }
