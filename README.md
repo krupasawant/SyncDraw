@@ -10,7 +10,30 @@ Key features include:
 - Edit panel: Contextual properties panel for selected elements.
 - Export: Export current canvas as PNG.
 - Persistence: Save/load designs via REST API.
-- Real-Time Collaboration: Multiple users can edit the same design concurrently
-- Comments & Mentions : Add comments, view past discussions, and mention other users
 - Design Management: Create new designs, edit existing ones, and browse past designs with optional thumbnails
+
+# Tech Stack
+
+- Framework: React + Redux
+- Canvas Management: Konva.js
+- Authentication: Clerk
+
+# Setup
+Prerequisites
+Node.js v18+
+Clerk account for authentication
+
+# Installation
+
+- git clone <FRONTEND_REPO_URL>
+- cd frontend
+- npm install
+  (Set Clerk frontend keys and local host url)
+- npm run dev
+
+# Out of Scope / Future Work
+
+- Real-time collaboration between multiple users
+- Comments and mentions on designs
+- These features may be added in future versions.
 
