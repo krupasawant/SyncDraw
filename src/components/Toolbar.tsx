@@ -4,7 +4,14 @@ import { addObject, undo, redo, removeObject, updateObjectsOrder } from '../redu
 import { v4 as uuid } from 'uuid';
 import type { RootState } from '../redux/store';
 
-export default function Toolbar() {
+
+import Konva from 'konva';
+
+interface ToolbarProps {
+  stageRef: React.RefObject<Konva.Stage | null>;
+}
+
+export default function Toolbar({ stageRef }: ToolbarProps) {
   const dispatch = useDispatch();
   const selectedId = useSelector((state: RootState) => state.canvas.selectedObjectId);
 
@@ -54,12 +61,15 @@ export default function Toolbar() {
     e.target.value = '';
   };
 
+
   const handleExport = () => {
-    const stage = document.querySelector('canvas')?.parentElement;
+    const stage = stageRef.current;
     if (!stage) return;
+
+    const dataURL = stage.toDataURL({ pixelRatio: 2 });
     const link = document.createElement('a');
     link.download = 'canvas.png';
-    link.href = (stage as HTMLCanvasElement).toDataURL('image/png');
+    link.href = dataURL;
     link.click();
   };
 

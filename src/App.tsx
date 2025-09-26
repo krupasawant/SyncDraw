@@ -1,5 +1,8 @@
 import './App.css';
-import { useState } from 'react';
+import { useState,useRef } from 'react';
+
+
+import type KonvaType from 'konva';
 
 import CanvasEditor from './components/CanvasEditor';
 import Toolbar from './components/Toolbar';
@@ -20,6 +23,8 @@ function App() {
     data: BaseObject[];
   } | null>(null);
 
+  const stageRef = useRef<KonvaType.Stage | null>(null);
+
   return (
     <ClerkProvider publishableKey={publishableKey}>
        <Navbar></Navbar>
@@ -38,8 +43,9 @@ function App() {
 
       {/* Main canvas and controls */}
       <div style={{ flex: 1, position: 'relative' }}>
-        <Toolbar />
-        <CanvasEditor selectedDesign={selectedDesign || undefined} />
+        <Toolbar stageRef={stageRef}></Toolbar>
+        <CanvasEditor stageRef={stageRef}
+        selectedDesign={selectedDesign || undefined} />
         <EditPanel />
       </div>
     </div>

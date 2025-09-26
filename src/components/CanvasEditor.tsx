@@ -25,7 +25,10 @@ import SaveDesign from './SaveDesign';
 import type { BaseObject } from '../types/object';
 import { useAuth } from '@clerk/clerk-react';
 
+import Konva from 'konva';
+
 interface CanvasEditorProps {
+   stageRef: React.RefObject<Konva.Stage | null>;
   selectedDesign?: {
     _id?: string;
     title?: string;
@@ -61,7 +64,7 @@ function ImageObject({ obj, commonProps, handleTransformEnd }: any) {
   );
 }
 
-export default function CanvasEditor({ selectedDesign, currentUserId }: CanvasEditorProps) {
+export default function CanvasEditor({ stageRef,selectedDesign, currentUserId }: CanvasEditorProps) {
   const { getToken } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const objects = useSelector((state: RootState) => state.canvas.objects);
@@ -207,7 +210,7 @@ export default function CanvasEditor({ selectedDesign, currentUserId }: CanvasEd
         </div>
       )}
 
-      <Stage width={window.innerWidth - 400} height={window.innerHeight - 40} onMouseDown={e => e.target === e.target.getStage() && handleSelect(undefined)} style={{ background: '#fff', border: '1px solid #ddd', borderRadius: 6 }}>
+      <Stage width={window.innerWidth - 400} height={window.innerHeight - 40} onMouseDown={e => e.target === e.target.getStage() && handleSelect(undefined)} style={{ background: '#fff', border: '1px solid #ddd', borderRadius: 6 }} ref={stageRef}>
         <Layer ref={layerRef}>
           {objects.map(obj => {
             const commonProps = { id: obj.id, key: obj.id, x: obj.x, y: obj.y, draggable: true, onClick: () => handleSelect(obj.id), onDragEnd: (e: { target: { x: () => number; y: () => number; }; }) => handleDragEnd(obj.id, e.target.x(), e.target.y()), rotation: obj.rotation || 0 };
